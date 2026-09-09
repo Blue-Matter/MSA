@@ -738,9 +738,15 @@ update_report <- function(r, MSAdata) {
           na = na, nr = nr, ns = ns, ni = ni, samp = Dsurvey@samp_irs, delta = Dsurvey@delta_i
         )
         VI_ymi[y, m, ] <- sapply(1:ni, function(i) {
-          I_s <- sapply(1:ns, function(s) {
+          ff <- suppressWarnings(as.integer(dat@Dsurvey@sel_i[i]))
+          if (is.na(ff)) {
+            sel_char <- strsplit(dat@Dsurvey@sel_i[i], "_")[[1]]
+            ff <- suppressWarnings(as.integer(sel_char[1]))
+          }
+          q_s <- if (is.na(ff)) rep(1, ns) else q_fs[ff, ]
+          I_s <- q_s * sapply(1:ns, function(s) {
             w <- if (Dsurvey@unit_i[i] == "N") 1 else Dstock@swt_ymas[y, m, , s]
-            sum(IN_ymais[y, m, , i, s] * w)
+            q_s * sum(IN_ymais[y, m, , i, s] * w)
           })
           sum(I_s)
         })

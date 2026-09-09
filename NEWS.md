@@ -1,4 +1,8 @@
 
+## Version 0.6.0
+
+- Use stock-selectivity for indices mirrored to fleets
+
 ## Version 0.5.0
 
 - Update check for catch and lambda factors in predicted stock composition
